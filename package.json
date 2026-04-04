@@ -1,0 +1,29 @@
+{
+  "name": "boots-pokedex-repl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "dev": "npx tsc && node dist/main.js",
+    "test": "vitest --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abu-bilaall/boots-pokedex-repl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abu-bilaall/boots-pokedex-repl/issues"
+  },
+  "homepage": "https://github.com/abu-bilaall/boots-pokedex-repl#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  }
+}
