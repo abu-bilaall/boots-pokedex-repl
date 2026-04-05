@@ -1,14 +1,14 @@
-import type { CLICommand } from "./command.js";
+import { State } from "./state.js";
 
-export function commandHelp(commands: Record<string, CLICommand>) {
+export async function commandHelp(state: State) {
     const cmdDescriptions: string[] = [];
-    for (const cmd in commands) {
-        cmdDescriptions.push(`${commands[cmd].name}: ${commands[cmd].description}`);
+    for (const cmd in state.commands) {
+        cmdDescriptions.push(`${state.commands[cmd].name}: ${state.commands[cmd].description}`);
     }
 
     console.log(`
 Welcome to the Pokedex!
 Usage:
 
-${cmdDescriptions.join("\n")}\n`);
+${cmdDescriptions.join("\n")}`);
 }
