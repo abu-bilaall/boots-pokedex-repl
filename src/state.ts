@@ -5,6 +5,9 @@ import { PokeAPI } from "./pokeapi.js";
 import { map, mapb } from "./command_map.js";
 import { explore } from "./command_explore.js";
 import { catchCmd } from "./command_catch.js";
+import { inspect } from "./command_inspect.js";
+import { pokedex } from "./command_pokedex.js";
+import { type pokemonInfoType } from "./command_catch.js";
 
 type CLICommand = {
     name: string;
@@ -43,8 +46,17 @@ function getCommands(): Record<string, CLICommand> {
             name: "catch",
             description: "Might catch a pokemon and adds it to the user's pokedex",
             callback: catchCmd,
+        },
+        inspect: {
+            name: "inspect",
+            description: "Inspects a pokemon, if it has been caught",
+            callback: inspect,
+        },
+        pokedex: {
+            name: "pokedex",
+            description: "Lists caught pokemons",
+            callback: pokedex
         }
-        // more commands go here
     };
 }
 
@@ -54,7 +66,7 @@ export type State = {
     pokeapi: PokeAPI;
     nextLocationsURL: string | null,
     prevLocationsURL: string | null,
-    pokedex: string[],
+    pokedex: pokemonInfoType[],
 }
 
 export async function initState(): Promise<State> {
@@ -67,7 +79,7 @@ export async function initState(): Promise<State> {
     const pokeapi = new PokeAPI();
     const nextLocationsURL = null;
     const prevLocationsURL = null;
-    const pokedex: string[] = [];
+    const pokedex: pokemonInfoType[] = [];
 
     return { rl, commands, pokeapi, nextLocationsURL, prevLocationsURL, pokedex };
 }
