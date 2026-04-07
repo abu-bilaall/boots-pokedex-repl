@@ -17,9 +17,9 @@ export class Cache {
 
   add<T>(key: string, val: T) {
     const entry: CacheEntry<T> = {
-        createdAt: [Date.now()],
-        val: val,
-    }
+      createdAt: [Date.now()],
+      val: val,
+    };
 
     this.#cache.set(key, entry);
   }
@@ -31,7 +31,7 @@ export class Cache {
 
   #reap() {
     for (const item of this.#cache) {
-      if (item[1].createdAt[0] < (Date.now() - this.#interval)) {
+      if (item[1].createdAt[0] < Date.now() - this.#interval) {
         this.#cache.delete(item[0]);
       }
     }
