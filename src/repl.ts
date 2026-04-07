@@ -1,27 +1,20 @@
 import { State } from "./state.js";
 
-export async function startRepl(stateObj: State) {
-  const rl = stateObj.rl;
-  const commands = stateObj.commands;
-
+export async function startRepl(state: State) {
   // display prompt
-  rl.prompt();
+  state.rl.prompt();
 
   // listening on line
-  rl.on("line", async (input) => {
+  state.rl.on("line", async (input) => {
     if (!input) {
-      rl.prompt();
+      state.rl.prompt();
     } else {
-      const inputArr = cleanInput(input);
-      const userCmd = inputArr[0];
-      const location = inputArr[1] ? inputArr[1] : undefined;
-      if (commands[userCmd]) {
+      const inputArgs = cleanInput(input);
+      const userCmd = inputArgs.keyArg;
+      const otherArgs = inputArgs.otherArgs;
+      if (state.commands[userCmd]) {
         try {
-          if (location) {
-            await commands[userCmd].callback(stateObj, location);
-          } else {
-            await commands[userCmd].callback(stateObj);
-          }
+          await state.commands[userCmd].callback(state, ...otherArgs);
           console.log();
         } catch (error) {
           console.log((error as Error).message);
@@ -31,12 +24,13 @@ export async function startRepl(stateObj: State) {
       }
     }
 
-    rl.prompt();
+    state.rl.prompt();
   });
 }
 
-export function cleanInput(input: string): string[] {
-  const cleanInput = input.trim().toLowerCase();
-  const inputArr = cleanInput.split(" ");
-  return inputArr.filter((entry) => entry !== "");
+export function cleanInput(input: string) {
+  const cleanedInput = input.trim().toLowerCase();
+  const inputArr = cleanedInput.split(" ");
+  const [keyArg, ...otherArgs] = inputArr.filter((entry) => entry !== "");
+  return { keyArg, otherArgs };
 }
